@@ -1,0 +1,24 @@
+-- configuration and boot
+
+KAFKA_CLUSTER_ID="$( $(asdf where kafka)/bin/kafka-storage random-uuid )"
+
+$( $(asdf where kafka)/bin/kafka-storage format -t $KAFKA_CLUSTER_ID -c $(asdf where kafka)/config/kraft/server.properties )
+
+$( $(asdf where kafka)/bin/kafka-server-start $(asdf where kafka)/config/kraft/server.properties )
+
+-- topics
+
+$( $(asdf where kafka)/bin/kafka-topics --create --topic quickstart-events --bootstrap-server localhost:9092)
+
+$(asdf where kafka)/bin/kafka-topics --describe --topic quickstart-events --bootstrap-server localhost:9092
+
+-- producer
+
+$(asdf where kafka)/bin/kafka-console-producer --topic quickstart-events --bootstrap-server localhost:9092
+This is my first event
+This is my second event
+
+-- consumer
+
+$(asdf where kafka)/bin/kafka-console-consumer --topic quickstart-events --from-beginning --bootstrap-server localhost:9092
+

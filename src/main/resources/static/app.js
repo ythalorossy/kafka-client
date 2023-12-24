@@ -5,17 +5,17 @@ const stompClient = new StompJs.Client({
 stompClient.onConnect = (frame) => {
     setConnected(true);
     console.log('Connected: ' + frame);
-    stompClient.subscribe('/topic/greetings', (greeting) => {
-        showGreeting(JSON.parse(greeting.body).content);
-    });
+    // stompClient.subscribe('/topic/greetings', (greeting) => {
+    //     showGreeting(JSON.parse(greeting.body).content);
+    // });
 
     stompClient.subscribe('/topic/kafka', (greeting) => {
         showKafka(JSON.parse(greeting.body).content);
     });
 
-    // stompClient.subscribe('/user/ythalo/topic/greetings', (greeting) => {
-    //     showGreeting(JSON.parse(greeting.body).content);
-    // });
+    stompClient.subscribe('/user/topic/greetings', (greeting) => {
+        showGreeting(JSON.parse(greeting.body).content);
+    }, {header: "receipt-id"});
 
 };
 

@@ -22,3 +22,17 @@ This is my second event
 
 $(asdf where kafka)/bin/kafka-console-consumer --topic quickstart-events --from-beginning --bootstrap-server localhost:9092
 
+-- listeners
+edit server.properties
+
+listeners=PLAINTEXT://172.x.y.z:9092
+advertised.listeners=PLAINTEXT://172.x.y.z:9092
+
+-- WSL 
+netsh interface portproxy add v4tov4 listenport=9092 listenaddress=0.0.0.0 connectport=9092 connectaddress=172.x.y.z
+
+-- Kafka UI
+docker run -it -p 9090:8080 -e DYNAMIC_CONFIG_ENABLED=true provectuslabs/kafka-ui
+
+-- RabbitMQ
+docker run -it --rm --name rabbitmq -p 61613:61613 -p 5672:5672 -p 15672:15672 rabbitmq:3.12-management

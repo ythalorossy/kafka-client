@@ -19,12 +19,12 @@ public class KafkaClientApplication {
 		SpringApplication.run(KafkaClientApplication.class, args);
 	}
 
-	@KafkaListener(id = "myId", topics = "quickstart-events")
-	public void listen(String in) {
-		System.out.println(in);
+	// @KafkaListener(id = "myId", topics = "quickstart-events")
+	// public void listen(String in) {
+	// 	System.out.println(in);
 
-		Greeting greeting = new Greeting(in);
+	// 	Greeting greeting = new Greeting(in);
 
-		template.convertAndSend("/topic/kafka", greeting);
-	}
+	// 	template.convertAndSend("/topic/kafka", greeting);
+	// }
 }

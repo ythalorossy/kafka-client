@@ -9,11 +9,7 @@ stompClient.onConnect = (frame) => {
     //     showGreeting(JSON.parse(greeting.body).content);
     // });
 
-    stompClient.subscribe('/topic/kafka', (greeting) => {
-        showKafka(JSON.parse(greeting.body).content);
-    });
-
-    stompClient.subscribe('/user/topic/greetings', (greeting) => {
+    stompClient.subscribe('/topic/greetings', (greeting) => {
         showGreeting(JSON.parse(greeting.body).content);
     }, {header: "receipt-id"});
 
@@ -61,7 +57,11 @@ function disconnect() {
 
 function sendName() {
     stompClient.publish({
-        destination: "/app/hello",
+        // Using the broker as destination
+        destination: "/topic/greetings", 
+        // Using the application as destination.
+        // Spring: The @Controller @MessageMapping("/hello") will catch the message
+        // destination: "/app/hello", 
         body: JSON.stringify({ 'name': $("#name").val() }),
         headers: { receipt: "KAFKA-WEB" },
     });
